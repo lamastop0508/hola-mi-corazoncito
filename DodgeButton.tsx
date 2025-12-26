@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 interface DodgeButtonProps {
   label: string;
@@ -7,35 +7,39 @@ interface DodgeButtonProps {
 
 const DodgeButton: React.FC<DodgeButtonProps> = ({ label }) => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   const moveButton = () => {
-    // Rango de escape muy amplio para que el botón "salte" lejos del cursor
-    const vW = window.innerWidth;
-    const vH = window.innerHeight;
+    // Calculamos un movimiento aleatorio pero que se mantenga visible
+    // Usamos un rango amplio para que salte a cualquier lado
+    const maxX = window.innerWidth / 2.5;
+    const maxY = window.innerHeight / 2.5;
     
-    // Calculamos una posición aleatoria que cubra el 80% de la pantalla
-    const randomX = (Math.random() - 0.5) * vW * 0.8;
-    const randomY = (Math.random() - 0.5) * vH * 0.8;
+    const randomX = (Math.random() - 0.5) * maxX * 1.5;
+    const randomY = (Math.random() - 0.5) * maxY * 1.5;
 
     setPosition({ x: randomX, y: randomY });
+  };
+
+  // Si por algún milagro logra hacerle clic (muy difícil), movemos el botón igual
+  const handleClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    moveButton();
   };
 
   return (
     <div className="relative inline-block">
       <button
+        ref={buttonRef}
         onMouseEnter={moveButton}
         onPointerOver={moveButton}
-        onTouchStart={moveButton}
-        onClick={(e) => { 
-          e.preventDefault(); 
-          moveButton(); 
-        }}
-        className="bg-gray-100 text-gray-400 px-8 py-3 rounded-full font-medium shadow-sm transition-transform duration-200 ease-out select-none cursor-default active:scale-95"
+        onClick={handleClick}
+        className="bg-gray-100 text-gray-400 px-8 py-3 rounded-full font-medium shadow-sm transform transition-transform duration-75 select-none cursor-default active:scale-90"
         style={{
           transform: `translate(${position.x}px, ${position.y}px)`,
-          zIndex: 40,
+          zIndex: 50,
           border: '1px solid #e5e7eb'
-        } as React.CSSProperties}
+        }}
       >
         {label}
       </button>
