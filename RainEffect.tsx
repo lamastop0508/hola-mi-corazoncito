@@ -12,48 +12,47 @@ interface Particle {
 
 const RainEffect: React.FC = () => {
   const [particles, setParticles] = useState<Particle[]>([]);
-  const chars = ['❤️', '💖', '💋', '😘', '💕', '✨', '🌹', '🥂'];
+  const chars = ['❤️', '💖', '💋', '😘', '💕', '✨'];
 
   useEffect(() => {
     const interval = setInterval(() => {
       const newParticle: Particle = {
-        id: Math.random(),
+        id: Date.now(),
         x: Math.random() * 100,
         y: -10,
-        size: Math.random() * (45 - 20) + 20,
-        duration: Math.random() * (4 - 2) + 2,
+        size: Math.random() * (30 - 15) + 15,
+        duration: Math.random() * (8 - 4) + 4,
         char: chars[Math.floor(Math.random() * chars.length)]
       };
-      setParticles(prev => [...prev.slice(-70), newParticle]);
-    }, 100);
+      setParticles(prev => [...prev.slice(-40), newParticle]);
+    }, 300);
+
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-50 overflow-hidden">
+    <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
       {particles.map(p => (
         <div
           key={p.id}
-          className="absolute"
+          className="absolute animate-fall"
           style={{
             left: `${p.x}%`,
             top: `${p.y}%`,
             fontSize: `${p.size}px`,
             animation: `fall ${p.duration}s linear forwards`,
-            opacity: 0.9,
-            filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))',
-            pointerEvents: 'none'
-          } as React.CSSProperties}
+            opacity: 0.8
+          }}
         >
           {p.char}
         </div>
       ))}
       <style>{`
         @keyframes fall {
-          0% { transform: translateY(-10vh) rotate(0deg) scale(0.5); opacity: 0; }
-          10% { opacity: 1; scale: 1; }
+          0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
+          10% { opacity: 1; }
           90% { opacity: 1; }
-          100% { transform: translateY(110vh) rotate(720deg) scale(0.8); opacity: 0; }
+          100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
         }
       `}</style>
     </div>
