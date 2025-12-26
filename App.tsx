@@ -13,7 +13,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-4 relative overflow-hidden">
+    <div className="min-h-screen flex flex-col items-center justify-center p-4 relative overflow-hidden bg-[#fff1f2]">
       {/* Elementos decorativos de fondo */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none -z-10">
         <div className="absolute top-[10%] left-[5%] text-pink-200 text-6xl floating opacity-50">🌸</div>
@@ -30,11 +30,11 @@ const App: React.FC = () => {
             {/* Foto de Mafe */}
             <div className="relative inline-block group">
               <div className="absolute -inset-2 bg-gradient-to-r from-rose-400 to-pink-300 rounded-2xl blur opacity-30 group-hover:opacity-60 transition duration-1000 group-hover:duration-200"></div>
-              <div className="relative bg-white p-2 rounded-2xl shadow-xl">
+              <div className="relative bg-white p-2 rounded-2xl shadow-xl overflow-hidden">
                 <img 
                   src={MAFE_PHOTO_CODE} 
                   alt="Mafe" 
-                  className="w-64 h-80 object-cover rounded-xl shadow-inner"
+                  className="w-64 h-80 object-cover rounded-xl shadow-inner transition-transform duration-500 group-hover:scale-105"
                   onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1518196775741-20165963500a?w=400&h=500&fit=crop"; }}
                 />
               </div>
